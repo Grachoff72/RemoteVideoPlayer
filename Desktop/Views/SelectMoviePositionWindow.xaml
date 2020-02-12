@@ -1,0 +1,27 @@
+﻿<views:ListBoxWindow
+	x:Class="RemoteVideoPlayer.Views.SelectMoviePositionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:RemoteVideoPlayer.Views"
+        mc:Ignorable="d"
+        WindowStyle="None" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" MinHeight="250" MinWidth="340" MaxHeight="250" MaxWidth="340">
+	<Grid Background="CadetBlue">
+		<StackPanel Width="320" Height="230" VerticalAlignment="Center">
+			<ListBox Name="SelectListBox" IsSynchronizedWithCurrentItem="True" SelectionMode="Single"
+					HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="48" FontWeight="DemiBold"
+					SelectedIndex="1">
+				<ListBoxItem Name="BeginItem" Style="{StaticResource SelectItemStyle}">
+					<Button Style="{StaticResource SelectButtonStyle}" Content="С начала" Click="BeginButtonClick" />
+				</ListBoxItem>
+				<ListBoxItem Name="ContinueItem" Style="{StaticResource SelectItemStyle}">
+					<Button Style="{StaticResource SelectButtonStyle}" Content="Продолжить" Click="ContinueButtonClick" />
+				</ListBoxItem>
+				<ListBoxItem Name="CloseItem" Style="{StaticResource SelectItemStyle}" >
+					<Button Style="{StaticResource SelectButtonStyle}" Content="Отмена" IsCancel="True" Click="CloseButtonClick" />
+				</ListBoxItem>
+			</ListBox>
+		</StackPanel>
+	</Grid>
+</views:ListBoxWindow>

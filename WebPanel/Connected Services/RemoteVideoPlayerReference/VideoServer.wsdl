@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="VideoServer" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="NetNamedPipeBinding_IRemoteVideoPlayerService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="Play">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="LevelUp">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SelectMovie">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Skip">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SkipBack">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="CloseApp">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="FastForward">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Rewind">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ChangeScreenState">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Mute">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="VolumeDown">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="VolumeUp">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Pause">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Stop">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Next">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Previous">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SelectItem">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Info">
+        <xs:complexType>
+          <xs:sequence />
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="IRemoteVideoPlayerService_Play_InputMessage">
+    <wsdl:part name="parameters" element="tns:Play" />
+  </wsdl:message>
+  <wsdl:message name="IRemoteVideoPlayerService_LevelUp_InputMessage">
+    <wsdl:part name="parameters" element="tns:LevelUp" />
+  </wsdl:message>
+  <wsdl:message name="IRemoteVideoPlayerService_SelectMovie_InputMessage">
+    <wsdl:part name="parameters" element="tns:SelectMovie" />
+  </wsdl:message>
+  <wsdl:message name="IRemoteVideoPlayerService_Skip_InputMessage">
+    <wsdl:part name="parameters" element="tns:Skip" />
+  </wsdl:message>
+  <wsdl:message name="IRemoteVideoPlayerService_SkipBack_InputMessage">
+    <wsdl:part name="parameters" element="tns:SkipBack" />
+  </wsdl:message>
+  <wsdl:message name="IRemoteVideoPlayerService_CloseApp_InputMessage">
+    <wsdl:part name="parameters" element="tns:CloseApp" />
+  </wsdl:message>
+  <wsdl:message name="IRemoteVideoPlayerService_FastForward_InputMessage">
+    <wsdl:part name="parameters" element="tns:FastForward" />
+  </wsdl:message>
+  <wsdl:message name="IRemoteVideoPlayerService_Rewind_InputMessage">
+    <wsdl:part name="parameters" element="tns:Rewind" />
+  </wsdl:message>
+  <wsdl:message name="IRemoteVideoPlayerService_ChangeScreenState_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeScreenState" />
+  </wsdl:message>
+  <wsdl:message name="IRemoteVideoPlayerService_Mute_InputMessage">
+    <wsdl:part name="parameters" element="tns:Mute" />
+  </wsdl:message>
+  <wsdl:message name="IRemoteVideoPlayerService_VolumeDown_InputMessage">
+    <wsdl:part name="parameters" element="tns:VolumeDown" />
+  </wsdl:message>
+  <wsdl:message name="IRemoteVideoPlayerService_VolumeUp_InputMessage">
+    <wsdl:part name="parameters" element="tns:VolumeUp" />
+  </wsdl:message>
+  <wsdl:message name="IRemoteVideoPlayerService_Pause_InputMessage">
+    <wsdl:part name="parameters" element="tns:Pause" />
+  </wsdl:message>
+  <wsdl:message name="IRemoteVideoPlayerService_Stop_InputMessage">
+    <wsdl:part name="parameters" element="tns:Stop" />
+  </wsdl:message>
+  <wsdl:message name="IRemoteVideoPlayerService_Next_InputMessage">
+    <wsdl:part name="parameters" element="tns:Next" />
+  </wsdl:message>
+  <wsdl:message name="IRemoteVideoPlayerService_Previous_InputMessage">
+    <wsdl:part name="parameters" element="tns:Previous" />
+  </wsdl:message>
+  <wsdl:message name="IRemoteVideoPlayerService_SelectItem_InputMessage">
+    <wsdl:part name="parameters" element="tns:SelectItem" />
+  </wsdl:message>
+  <wsdl:message name="IRemoteVideoPlayerService_Info_InputMessage">
+    <wsdl:part name="parameters" element="tns:Info" />
+  </wsdl:message>
+  <wsdl:portType msc:usingSession="true" name="IRemoteVideoPlayerService">
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Play">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRemoteVideoPlayerService/Play" message="tns:IRemoteVideoPlayerService_Play_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="LevelUp">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRemoteVideoPlayerService/LevelUp" message="tns:IRemoteVideoPlayerService_LevelUp_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="SelectMovie">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRemoteVideoPlayerService/SelectMovie" message="tns:IRemoteVideoPlayerService_SelectMovie_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Skip">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRemoteVideoPlayerService/Skip" message="tns:IRemoteVideoPlayerService_Skip_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="SkipBack">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRemoteVideoPlayerService/SkipBack" message="tns:IRemoteVideoPlayerService_SkipBack_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="CloseApp">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRemoteVideoPlayerService/CloseApp" message="tns:IRemoteVideoPlayerService_CloseApp_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="FastForward">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRemoteVideoPlayerService/FastForward" message="tns:IRemoteVideoPlayerService_FastForward_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Rewind">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRemoteVideoPlayerService/Rewind" message="tns:IRemoteVideoPlayerService_Rewind_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="ChangeScreenState">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRemoteVideoPlayerService/ChangeScreenState" message="tns:IRemoteVideoPlayerService_ChangeScreenState_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Mute">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRemoteVideoPlayerService/Mute" message="tns:IRemoteVideoPlayerService_Mute_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="VolumeDown">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRemoteVideoPlayerService/VolumeDown" message="tns:IRemoteVideoPlayerService_VolumeDown_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="VolumeUp">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRemoteVideoPlayerService/VolumeUp" message="tns:IRemoteVideoPlayerService_VolumeUp_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Pause">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRemoteVideoPlayerService/Pause" message="tns:IRemoteVideoPlayerService_Pause_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Stop">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRemoteVideoPlayerService/Stop" message="tns:IRemoteVideoPlayerService_Stop_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Next">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRemoteVideoPlayerService/Next" message="tns:IRemoteVideoPlayerService_Next_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Previous">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRemoteVideoPlayerService/Previous" message="tns:IRemoteVideoPlayerService_Previous_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="SelectItem">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRemoteVideoPlayerService/SelectItem" message="tns:IRemoteVideoPlayerService_SelectItem_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Info">
+      <wsdl:input wsaw:Action="http://tempuri.org/IRemoteVideoPlayerService/Info" message="tns:IRemoteVideoPlayerService_Info_InputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NetNamedPipeBinding_IRemoteVideoPlayerService" type="tns:IRemoteVideoPlayerService">
+    <wsp:PolicyReference URI="#NetNamedPipeBinding_IRemoteVideoPlayerService_policy" />
+    <soap12:binding transport="http://schemas.microsoft.com/soap/named-pipe" />
+    <wsdl:operation name="Play">
+      <soap12:operation soapAction="http://tempuri.org/IRemoteVideoPlayerService/Play" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="LevelUp">
+      <soap12:operation soapAction="http://tempuri.org/IRemoteVideoPlayerService/LevelUp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="SelectMovie">
+      <soap12:operation soapAction="http://tempuri.org/IRemoteVideoPlayerService/SelectMovie" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="Skip">
+      <soap12:operation soapAction="http://tempuri.org/IRemoteVideoPlayerService/Skip" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="SkipBack">
+      <soap12:operation soapAction="http://tempuri.org/IRemoteVideoPlayerService/SkipBack" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="CloseApp">
+      <soap12:operation soapAction="http://tempuri.org/IRemoteVideoPlayerService/CloseApp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="FastForward">
+      <soap12:operation soapAction="http://tempuri.org/IRemoteVideoPlayerService/FastForward" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="Rewind">
+      <soap12:operation soapAction="http://tempuri.org/IRemoteVideoPlayerService/Rewind" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeScreenState">
+      <soap12:operation soapAction="http://tempuri.org/IRemoteVideoPlayerService/ChangeScreenState" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="Mute">
+      <soap12:operation soapAction="http://tempuri.org/IRemoteVideoPlayerService/Mute" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="VolumeDown">
+      <soap12:operation soapAction="http://tempuri.org/IRemoteVideoPlayerService/VolumeDown" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="VolumeUp">
+      <soap12:operation soapAction="http://tempuri.org/IRemoteVideoPlayerService/VolumeUp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="Pause">
+      <soap12:operation soapAction="http://tempuri.org/IRemoteVideoPlayerService/Pause" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="Stop">
+      <soap12:operation soapAction="http://tempuri.org/IRemoteVideoPlayerService/Stop" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="Next">
+      <soap12:operation soapAction="http://tempuri.org/IRemoteVideoPlayerService/Next" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="Previous">
+      <soap12:operation soapAction="http://tempuri.org/IRemoteVideoPlayerService/Previous" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="SelectItem">
+      <soap12:operation soapAction="http://tempuri.org/IRemoteVideoPlayerService/SelectItem" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="Info">
+      <soap12:operation soapAction="http://tempuri.org/IRemoteVideoPlayerService/Info" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="VideoServer">
+    <wsdl:port name="NetNamedPipeBinding_IRemoteVideoPlayerService" binding="tns:NetNamedPipeBinding_IRemoteVideoPlayerService">
+      <soap12:address location="net.pipe://grachoffhome/RemoteVideoPlayer" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.pipe://grachoffhome/RemoteVideoPlayer</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Dns>localhost</Dns>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
