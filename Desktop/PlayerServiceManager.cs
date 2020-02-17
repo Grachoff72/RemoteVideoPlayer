@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.IO;
 using System.Messaging;
 using System.ServiceModel;
+using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using RemoteVideoPlayer.Helpers;
 using RemoteVideoPlayer.Views;
 
@@ -53,6 +56,8 @@ namespace RemoteVideoPlayer
 
 		public void Start()
 		{
+			this.CreateQueues();
+
 			Task.Factory.StartNew(this.InitHost, this._tokenSource.Token);
 		}
 
@@ -60,8 +65,6 @@ namespace RemoteVideoPlayer
 		{
 			try
 			{
-				this.CreateQueues();
-
 				this._host = new ServiceHost(typeof(VideoServer));
 
 				this._host.Opened += this.HostOpened;
@@ -119,6 +122,28 @@ namespace RemoteVideoPlayer
 
 		private void CreateQueues()
 		{
+			try
+			{
+				var service = new ServiceController("MSMQ");
+
+				if (service.Status != ServiceControllerStatus.Running)
+				{
+					service.Start();
+					service.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(10));
+				}
+			}
+			catch (Exception ex)
+			{
+				//MessageBox.Show(
+				//	"Служба очереди сообщений отключена или недоступна",
+				//	"Remote Video Player",
+				//	MessageBoxButton.OK,
+				//	MessageBoxImage.Warning
+				//	);
+
+				App.WriteLog(ex);
+			}
+
 			this._inputQueue = CreateQueue(ConfigHelper.InputQueueName);
 			//this._outputQueue = CreateQueue(ConfigHelper.OutputQueueName);
 		}

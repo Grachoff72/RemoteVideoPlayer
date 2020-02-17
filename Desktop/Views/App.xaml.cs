@@ -27,9 +27,9 @@ namespace RemoteVideoPlayer.Views
 				return;
 			}
 
+			this.ShutdownMode = ShutdownMode.OnMainWindowClose;
 			this.Exit += AppExit;
 			PlayerServiceManager.Current.Start();
-			this.ShutdownMode = ShutdownMode.OnMainWindowClose;
 		}
 
 		private static void AppExit(object sender, ExitEventArgs e)
