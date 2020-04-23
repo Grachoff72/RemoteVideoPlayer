@@ -21,7 +21,7 @@ namespace RemoteVideoPlayer.Views
 
 		private readonly DispatcherTimer _volumeTextTimer;
 
-		private readonly DispatcherTimer _sizeChangedTimer;
+		//private readonly DispatcherTimer _sizeChangedTimer;
 
 		private readonly DispatcherTimer _fastPlayTimer;
 
@@ -39,9 +39,6 @@ namespace RemoteVideoPlayer.Views
 
 			this._fastPlayTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500) };
 			this._fastPlayTimer.Tick += this.FastPlayTimerTick;
-
-			this._sizeChangedTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500) };
-			this._sizeChangedTimer.Tick += this.SizeChangedTimerTick;
 			
 			this._fileHelper = new IOHelper();
 
@@ -52,7 +49,6 @@ namespace RemoteVideoPlayer.Views
 			this.MouseMove += this.MainWindowMouseMove;
 			this.PreviewMouseDown += this.MainWindowPreviewMouseDown;
 			this.PreviewKeyUp += this.MainWindowPreviewKeyUp;
-
 			PlatformInvoke.SetThreadExecutionState(ExecutionState.ES_DISPLAY_REQUIRED | ExecutionState.ES_CONTINUOUS);
 		}
 
@@ -67,13 +63,6 @@ namespace RemoteVideoPlayer.Views
 			{
 				this.RestoreScreen();
 			}
-		}
-
-		private void SizeChangedTimerTick(object sender, EventArgs e)
-		{
-			this.ChangeLocation();
-			this.Resize();
-			this._sizeChangedTimer.Stop();
 		}
 
 		private void MouseMoveTimerTick(object sender, EventArgs e)
@@ -116,8 +105,8 @@ namespace RemoteVideoPlayer.Views
 
 		private void MainWindowSizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			this._sizeChangedTimer.Start();
-
+			this.Resize();
+			this.ChangeLocation();
 		}
 
 		private void ChangeLocation()
@@ -159,7 +148,6 @@ namespace RemoteVideoPlayer.Views
 
 		private void Player_MediaOpened(object sender, RoutedEventArgs e)
 		{
-			//Console.WriteLine(this.Player.AudioRenderer);
 			this.UpdatePlayerParameters();
 		}
 

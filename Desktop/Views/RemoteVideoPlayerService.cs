@@ -14,12 +14,15 @@ namespace RemoteVideoPlayer.Views
 		private bool _isNowPlaying;
 		private bool _isMuted;
 
+		public const double MIN_VOLUME = 0.2;
+		private const double MAX_VOLUME = 1.0;
+
 		public static readonly DependencyProperty LastVolumeProperty = DependencyProperty.Register(
-			"LastVolume", typeof(double), typeof(MainWindow), new PropertyMetadata(default(double)));
+			nameof(LastVolume), typeof(double), typeof(MainWindow), new PropertyMetadata(default(double)));
 
 		public double LastVolume { get { return (double)GetValue(LastVolumeProperty); } set { SetValue(LastVolumeProperty, value); } }
 
-		private double MovieRatio { get; set; }
+		private double MovieRatio => (double)this.Player.NaturalVideoWidth / this.Player.NaturalVideoHeight;
 
 		private Movie CurrentMovie { get; set; }
 
@@ -30,8 +33,11 @@ namespace RemoteVideoPlayer.Views
 			{
 				if (value)
 				{
-					this.LastVolume = this.Player.Volume;
-					this.Player.Volume = 0;
+					if (!_isMuted)
+					{
+						this.LastVolume = this.Player.Volume;
+						this.Player.Volume = MIN_VOLUME;
+					}
 				}
 				else
 				{
@@ -141,14 +147,13 @@ namespace RemoteVideoPlayer.Views
 
 		private void UpdatePlayerParameters()
 		{
-			this.Player.Height = this.Player.NaturalVideoHeight;
-			this.Player.Width = this.Player.NaturalVideoWidth;
+			//this.Player.Height = this.Player.NaturalVideoHeight;
+			//this.Player.Width = this.Player.NaturalVideoWidth;
 
 			this.InfoBlock.Text = new Movie(this.Player.Source.AbsolutePath).Name;
 
-			this.MovieRatio = this.Player.Width / this.Player.Height;
-
 			this.ProgressSlider.Maximum = new TimeSpan(this.Player.MediaDuration).TotalSeconds;
+
 			this.Resize();
 		}
 
@@ -188,10 +193,15 @@ namespace RemoteVideoPlayer.Views
 
 		private void FullScreen()
 		{
+			if (this.WindowState == WindowState.Maximized && this.WindowStyle == WindowStyle.SingleBorderWindow)
+			{
+				this.WindowState = WindowState.Normal;
+			}
+
 			this.ScreenButton.Content = SetButtonContent("RestoreScreenImage");
 
 			this.WindowStyle = WindowStyle.None;
-			this.SizeToContent = SizeToContent.Manual;
+			//this.SizeToContent = SizeToContent.Manual;
 			this.WindowState = WindowState.Maximized;
 		}
 
@@ -200,7 +210,7 @@ namespace RemoteVideoPlayer.Views
 			this.ScreenButton.Content = SetButtonContent("ExpandImage");
 
 			this.WindowStyle = WindowStyle.SingleBorderWindow;
-			this.SizeToContent = SizeToContent.WidthAndHeight;
+			//this.SizeToContent = SizeToContent.WidthAndHeight;
 			this.WindowState = WindowState.Normal;
 		}
 
@@ -220,13 +230,14 @@ namespace RemoteVideoPlayer.Views
 			if (h > pnlHeight)
 			{
 				h = pnlHeight;
+
 				w = h * this.MovieRatio;
 			}
 
 			this.Player.Width = w;
 			this.Player.Height = h;
 
-			this.ProgressSlider.Width = this.DockPanel.ActualWidth - 100;
+			this.ProgressSlider.Width = this.DockPanel.ActualWidth - 220;
 			this.InvalidateVisual();
 		}
 
@@ -307,7 +318,7 @@ namespace RemoteVideoPlayer.Views
 
 		public void ChangeScreenState()
 		{
-			if (this.WindowState == WindowState.Maximized)
+			if (this.WindowState == WindowState.Maximized && this.WindowStyle == WindowStyle.None)
 			{
 				this.RestoreScreen();
 			}
@@ -326,11 +337,11 @@ namespace RemoteVideoPlayer.Views
 
 		public void VolumeDown()
 		{
-			this.LastVolume -= 0.05;
+			this.LastVolume -= 0.02;
 
-			if (this.LastVolume < 0)
+			if (this.LastVolume < MIN_VOLUME)
 			{
-				this.LastVolume = 0;
+				this.LastVolume = MIN_VOLUME;
 			}
 
 			this.Player.Volume = this.LastVolume;
@@ -339,11 +350,11 @@ namespace RemoteVideoPlayer.Views
 
 		public void VolumeUp()
 		{
-			this.LastVolume += 0.05;
+			this.LastVolume += 0.02;
 
-			if (this.LastVolume > 1)
+			if (this.LastVolume > MAX_VOLUME)
 			{
-				this.LastVolume = 1;
+				this.LastVolume = MAX_VOLUME;
 			}
 
 			this.Player.Volume = this.LastVolume;
@@ -390,7 +401,6 @@ namespace RemoteVideoPlayer.Views
 				switch (wnd.SuspendType)
 				{
 					case SuspendType.Shutdown:
-						this.Close();
 						PlatformInvoke.ExitWindowsEx(ExitWindows.ShutDown | ExitWindows.ForceIfHung, 0);
 						return;
 					case SuspendType.Hibernate:

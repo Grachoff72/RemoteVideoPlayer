@@ -7,6 +7,25 @@ namespace WebPanel
 {
 	public class Player : Page
 	{
+		private readonly RemoteVideoPlayerServiceClient _client = new RemoteVideoPlayerServiceClient();
+
+		#region Overrides of Control
+
+		/// <summary>Raises the <see cref="E:System.Web.UI.Control.Unload" /> event.</summary>
+		/// <param name="e">An <see cref="T:System.EventArgs" /> object that contains event data. </param>
+		protected override void OnUnload(EventArgs e)
+		{
+			try
+			{
+				this._client?.Close();
+			}
+			catch (ObjectDisposedException) { }
+
+			base.OnUnload(e);
+		}
+
+		#endregion
+
 		protected void PlayButton_Click(object sender, ImageClickEventArgs e)
 		{
 			SendAction(nameof(IRemoteVideoPlayerService.Play));
@@ -112,16 +131,14 @@ namespace WebPanel
 			SendAction(nameof(IRemoteVideoPlayerService.PageDown));
 		}
 
-		private static void SendAction(string actionName)
+		private void SendAction(string actionName)
 		{
-			var client = new RemoteVideoPlayerServiceClient(/*"NetNamedPipeBinding_IRemoteVideoPlayerService"*/);
-
 			try
 			{
 				//client.Open();
 				using (var scope = new TransactionScope(TransactionScopeOption.Required))
 				{
-					var action = (Action)Delegate.CreateDelegate(typeof(Action), client, actionName);
+					var action = (Action)Delegate.CreateDelegate(typeof(Action), this._client, actionName);
 					action.Invoke();
 
 					scope.Complete();
@@ -132,17 +149,6 @@ namespace WebPanel
 			catch (Exception ex)
 			{
 				MvcApplication.WriteLog(ex);
-			}
-			finally
-			{
-				try
-				{
-					client.Close();
-				}
-				catch (Exception)
-				{
-					client.Abort();
-				}
 			}
 		}
 	}

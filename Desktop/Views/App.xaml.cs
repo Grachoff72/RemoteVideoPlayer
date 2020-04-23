@@ -19,6 +19,22 @@ namespace RemoteVideoPlayer.Views
 
 		private static readonly Mutex _mutex = new Mutex(true, Assembly.GetExecutingAssembly().GetName().Name);
 
+		static App()
+		{
+			var configName = Path.GetFileName(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile);
+			if (configName != null)
+			{
+				// Read the config from %ProgramData%
+				var newConfigPath =
+					Path.Combine(
+						Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
+						"RemoteVideoPlayer",
+						configName);
+
+				AppDomain.CurrentDomain.SetData("APP_CONFIG_FILE", newConfigPath);
+			}
+		}
+
 		public App()
 		{
 			if (!_mutex.WaitOne(TimeSpan.Zero, true))

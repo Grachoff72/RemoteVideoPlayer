@@ -70,7 +70,7 @@ namespace RemoteVideoPlayer.Helpers
 
 				if (this.CurrentMovieIndex == this._currentMovies.Count)
 				{
-					this.CurrentMovieIndex = 0;
+					this.CurrentMovieIndex = this._currentMovies.Count - 1;
 				}
 			}
 			else

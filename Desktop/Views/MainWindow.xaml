@@ -8,7 +8,7 @@
 		mc:Ignorable="d"
 		Name="MainForm"
         Title="Remote Video Player"
-		WindowStartupLocation="Manual" MinHeight="360" MinWidth="600" Background="Black" SizeToContent="WidthAndHeight">
+		WindowStartupLocation="Manual" MinHeight="360" MinWidth="600" Height="360" Width="600" Background="Black">
 	<Window.Resources>
 		<viewModels:DoubleToInt32Converter x:Key="DoubleToInt32Converter" />
 		<viewModels:Int64ToTimeSpanConverter x:Key="Int64ToTimeSpanConverter" />
@@ -28,7 +28,7 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 				<Grid Grid.Row="0">
-					<TextBlock Name="InfoBlock" Foreground="White" FontSize="24" Margin="5, 0" />
+					<TextBlock Name="InfoBlock" Foreground="White" FontSize="30" Margin="5, 0" />
 				</Grid>
 				<Grid Name="SliderGrid" Grid.Row="1" DataContext="{Binding ElementName=Player}" HorizontalAlignment="Center">
 					<Grid.ColumnDefinitions>
@@ -36,12 +36,12 @@
 						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
-					<TextBlock Name="PreSliderBlock" Grid.Column="0" Background="Transparent" Foreground="White" TextAlignment="Right"
+					<TextBlock Name="PreSliderBlock" Grid.Column="0" Background="Transparent" Foreground="White" FontSize="30" TextAlignment="Right"
 								Text="{Binding MediaPosition, IsAsync=True, Converter={StaticResource Int64ToTimeSpanConverter}}" />
-					<Slider Grid.Column="1" Name="ProgressSlider" Margin="5, 0" Width="500" IsEnabled="False"
-							IsMoveToPointEnabled="True"
+					<Slider Grid.Column="1" Name="ProgressSlider" Margin="5, 0" Width="380" IsEnabled="False"
+							IsMoveToPointEnabled="True" VerticalAlignment="Center"
 							Value="{Binding MediaPosition, IsAsync=True, Mode=TwoWay, Converter={StaticResource TicksToSecondsConverter}}" />
-					<TextBlock Name="PostSliderBlock" Grid.Column="2" Background="Transparent" Foreground="White">
+					<TextBlock Name="PostSliderBlock" Grid.Column="2" Background="Transparent" Foreground="White" FontSize="30">
 						<TextBlock.Text>
 							<MultiBinding Converter="{StaticResource Int64ToTimeSpanMultiConverter}">
 								<Binding Path="MediaDuration" />

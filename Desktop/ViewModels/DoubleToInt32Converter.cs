@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
+using RemoteVideoPlayer.Views;
 
 namespace RemoteVideoPlayer.ViewModels
 {
@@ -16,7 +17,7 @@ namespace RemoteVideoPlayer.ViewModels
 		/// <param name="culture">The culture to use in the converter.</param>
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			return (int)((double)(value ?? 0) * 20);
+			return (int)(((double)(value ?? MainWindow.MIN_VOLUME) - MainWindow.MIN_VOLUME) * 50);
 		}
 
 		/// <summary>Converts a value. </summary>
