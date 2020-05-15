@@ -108,6 +108,7 @@ namespace RemoteVideoPlayer.Views
 
 			this.SetControlsEnabled(true);
 			this.ShowRoot();
+			PlatformInvoke.SetThreadExecutionState(ExecutionState.ES_DISPLAY_REQUIRED | ExecutionState.ES_CONTINUOUS);
 		}
 
 		private void PlayMovie(Movie movie)
@@ -270,6 +271,7 @@ namespace RemoteVideoPlayer.Views
 			this.Player.Pause();
 
 			this._isNowPlaying = false;
+			PlatformInvoke.SetThreadExecutionState(ExecutionState.ES_CONTINUOUS);
 		}
 
 		public void Skip()
@@ -373,6 +375,7 @@ namespace RemoteVideoPlayer.Views
 			
 			this.PlayButton.Content = SetButtonContent("PlayImage");
 			this.SetControlsEnabled(false);
+			PlatformInvoke.SetThreadExecutionState(ExecutionState.ES_CONTINUOUS);
 		}
 
 		public void Next()

@@ -49,7 +49,6 @@ namespace RemoteVideoPlayer.Views
 			this.MouseMove += this.MainWindowMouseMove;
 			this.PreviewMouseDown += this.MainWindowPreviewMouseDown;
 			this.PreviewKeyUp += this.MainWindowPreviewKeyUp;
-			PlatformInvoke.SetThreadExecutionState(ExecutionState.ES_DISPLAY_REQUIRED | ExecutionState.ES_CONTINUOUS);
 		}
 
 		private void MainWindowPreviewMouseDown(object sender, MouseButtonEventArgs e)
