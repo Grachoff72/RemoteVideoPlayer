@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using RemoteVideoPlayer.Models;
 
 namespace RemoteVideoPlayer.Helpers
 {
 	public class IOHelper
 	{
-		public List<MovieListItem> MovieList { get; }
+		public List<MovieListItem> MovieList { get; set; }
 
 		private readonly List<Movie> _savedMovies;
 
@@ -28,10 +29,7 @@ namespace RemoteVideoPlayer.Helpers
 
 				return currentFolder;
 			}
-			private set
-			{
-				ConfigHelper.CurrentFolder = value;
-			}
+			private set => ConfigHelper.CurrentFolder = value;
 		}
 
 		public string CurrentFile { get; private set; }
@@ -70,7 +68,7 @@ namespace RemoteVideoPlayer.Helpers
 
 				if (this.CurrentMovieIndex == this._currentMovies.Count)
 				{
-					this.CurrentMovieIndex = this._currentMovies.Count - 1;
+					return String.Empty;
 				}
 			}
 			else
@@ -79,11 +77,86 @@ namespace RemoteVideoPlayer.Helpers
 
 				if (this.CurrentMovieIndex < 0)
 				{
-					this.CurrentMovieIndex = 0;
+					return String.Empty;
 				}
 			}
 
 			return this._currentMovies[this.CurrentMovieIndex];
+		}
+
+		internal static void SearchSubtitles(Movie movie)
+		{
+			try
+			{
+				var dir = Path.GetDirectoryName(movie.Path);
+				var subtitlesPath = Path.Combine(dir ?? "", $"{movie.Name}.srt");
+
+				if (!File.Exists(subtitlesPath))
+				{
+					return;
+				}
+
+				using (var sr = File.OpenText(subtitlesPath))
+				{
+					Subtitle subtitle = null;
+
+					while (!sr.EndOfStream)
+					{
+						var line = sr.ReadLine() ?? "";
+
+						if (Regex.IsMatch(line, @"^\d+$"))
+						{
+							subtitle = new Subtitle();
+							continue;
+						}
+
+						if (Regex.IsMatch(line, @"^\d{2}\:\d{2}\:\d{2}\,\d{3}\s-->\s\d{2}\:\d{2}\:\d{2}\,\d{3}$") && subtitle != null)
+						{
+							var spans = line.Split(new[] { "-->" }, StringSplitOptions.RemoveEmptyEntries);
+
+							if (spans.Length != 2)
+							{
+								subtitle = null;
+								continue;
+							}
+
+							TimeSpan.TryParse(spans[0].Trim(), out var begin);
+							TimeSpan.TryParse(spans[1].Trim(), out var end);
+
+							if (end <= begin)
+							{
+								subtitle = null;
+								continue;
+							}
+
+							subtitle.Begin = begin;
+							subtitle.End = end;
+
+							continue;
+						}
+
+						if (String.IsNullOrEmpty(line))
+						{
+							if (subtitle != null)
+							{
+								movie.Subtitles.Add(subtitle);
+							}
+
+							subtitle = null;
+							continue;
+						}
+
+						if (subtitle != null)
+						{
+							subtitle.Text = $"{subtitle.Text}{(String.IsNullOrEmpty(subtitle.Text) ? "" : "\r\n")}{line}" ;
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex);
+			}
 		}
 
 		private void UpdateMovieList(string file)
@@ -181,7 +254,7 @@ namespace RemoteVideoPlayer.Helpers
 				subList.AddRange(files.Select(x => new Movie(x)));
 			}
 
-			subList.Sort((x, y) => String.Compare(x.Path, y.Path, StringComparison.Ordinal));
+			subList.Sort((x, y) => String.Compare(x.Path, y.Path, StringComparison.OrdinalIgnoreCase));
 
 			return subList;
 		}

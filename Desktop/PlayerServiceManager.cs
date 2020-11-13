@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.IO;
 using System.Messaging;
 using System.ServiceModel;
 using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using RemoteVideoPlayer.Helpers;
 using RemoteVideoPlayer.Views;
 
@@ -40,16 +38,14 @@ namespace RemoteVideoPlayer
 				return;
 			}
 
-			IPlayer facility;
-			_facilities.TryPop(out facility);
+			_facilities.TryPop(out var facility);
 
 			App.WriteLog($"facility {facility} was removed");
 		}
 
 		public static IPlayer GetActiveFacility()
 		{
-			IPlayer facility;
-			_facilities.TryPeek(out facility);
+			_facilities.TryPeek(out var facility);
 
 			return facility;
 		}

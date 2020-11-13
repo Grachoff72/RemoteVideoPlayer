@@ -23,15 +23,10 @@ namespace RemoteVideoPlayer.Views
 
 		protected override ListBox ListBox => this.MovieListBox;
 
-		#region Overrides of ListBoxWindow
-
-		public override Dispatcher WindowDispatcher => this.Dispatcher;
-
-		#endregion
-
 		public MovieListWindow(IOHelper ioHelper)
 		{
 			this.FileHelper = ioHelper;
+
 			InitializeComponent();
 
 			this.MovieListBox.DataContext = this.FileHelper;
@@ -125,6 +120,8 @@ namespace RemoteVideoPlayer.Views
 		}
 
 		#region Overrides of ListBoxWindow
+
+		public override Dispatcher WindowDispatcher => this.Dispatcher;
 
 		public override void LevelUp()
 		{

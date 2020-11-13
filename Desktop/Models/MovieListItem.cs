@@ -11,13 +11,13 @@ namespace RemoteVideoPlayer.Models
 
 		public string Name
 		{
-			get { return this._name; }
+			get => this._name;
 			set { this._name = value; this.OnPropertyChanged(nameof(this.Name)); }
 		}
 
 		public string Path
 		{
-			get { return this._path; }
+			get => this._path;
 			set { this._path = value; this.OnPropertyChanged(nameof(this.Path)); }
 		}
 

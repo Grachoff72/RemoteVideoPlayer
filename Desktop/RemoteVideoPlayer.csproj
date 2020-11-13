@@ -91,6 +91,8 @@
     <Compile Include="Configuration\MovieElementCollection.cs" />
     <Compile Include="Helpers\ConfigHelper.cs" />
     <Compile Include="Helpers\IOHelper.cs" />
+    <Compile Include="Models\Subtitle.cs" />
+    <Compile Include="ViewModels\SubtitleConverter.cs" />
     <Compile Include="Views\IPlayer.cs" />
     <Compile Include="MoviePosition.cs" />
     <Compile Include="PlayerServiceManager.cs" />

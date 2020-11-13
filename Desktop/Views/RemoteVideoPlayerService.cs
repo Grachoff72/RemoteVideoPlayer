@@ -13,6 +13,7 @@ namespace RemoteVideoPlayer.Views
 
 		private bool _isNowPlaying;
 		private bool _isMuted;
+		private bool _subtitlesShowing;
 
 		public const double MIN_VOLUME = 0.2;
 		private const double MAX_VOLUME = 1.0;
@@ -20,15 +21,18 @@ namespace RemoteVideoPlayer.Views
 		public static readonly DependencyProperty LastVolumeProperty = DependencyProperty.Register(
 			nameof(LastVolume), typeof(double), typeof(MainWindow), new PropertyMetadata(default(double)));
 
-		public double LastVolume { get { return (double)GetValue(LastVolumeProperty); } set { SetValue(LastVolumeProperty, value); } }
+		public double LastVolume { get => (double)GetValue(LastVolumeProperty); set => SetValue(LastVolumeProperty, value); }
 
 		private double MovieRatio => (double)this.Player.NaturalVideoWidth / this.Player.NaturalVideoHeight;
 
-		private Movie CurrentMovie { get; set; }
+		public static readonly DependencyProperty CurrentMovieProperty = DependencyProperty.Register(
+			nameof(CurrentMovie), typeof(Movie), typeof(MainWindow), new PropertyMetadata(default(Movie)));
+
+		public Movie CurrentMovie { get => (Movie)GetValue(CurrentMovieProperty); set => SetValue(CurrentMovieProperty, value); }
 
 		private bool IsMuted
 		{
-			get { return this._isMuted; }
+			get => this._isMuted;
 			set
 			{
 				if (value)
@@ -113,7 +117,10 @@ namespace RemoteVideoPlayer.Views
 
 		private void PlayMovie(Movie movie)
 		{
+			IOHelper.SearchSubtitles(movie);
+
 			this.CurrentMovie = movie;
+
 			this.InternalOpen(movie.Path);
 
 			this._isNowPlaying = true;
@@ -126,7 +133,11 @@ namespace RemoteVideoPlayer.Views
 			this.SaveMoviePosition();
 
 			var file = this._fileHelper.GetNextFile(forward);
-			this.PlayMovie(new Movie(file));
+
+			if (!String.IsNullOrEmpty(file))
+			{
+				this.PlayMovie(new Movie(file));
+			}
 		}
 
 		private void PlayPause()
@@ -148,9 +159,6 @@ namespace RemoteVideoPlayer.Views
 
 		private void UpdatePlayerParameters()
 		{
-			//this.Player.Height = this.Player.NaturalVideoHeight;
-			//this.Player.Width = this.Player.NaturalVideoWidth;
-
 			this.InfoBlock.Text = new Movie(this.Player.Source.AbsolutePath).Name;
 
 			this.ProgressSlider.Maximum = new TimeSpan(this.Player.MediaDuration).TotalSeconds;
@@ -202,7 +210,6 @@ namespace RemoteVideoPlayer.Views
 			this.ScreenButton.Content = SetButtonContent("RestoreScreenImage");
 
 			this.WindowStyle = WindowStyle.None;
-			//this.SizeToContent = SizeToContent.Manual;
 			this.WindowState = WindowState.Maximized;
 		}
 
@@ -211,7 +218,6 @@ namespace RemoteVideoPlayer.Views
 			this.ScreenButton.Content = SetButtonContent("ExpandImage");
 
 			this.WindowStyle = WindowStyle.SingleBorderWindow;
-			//this.SizeToContent = SizeToContent.WidthAndHeight;
 			this.WindowState = WindowState.Normal;
 		}
 
@@ -250,6 +256,7 @@ namespace RemoteVideoPlayer.Views
 		{
 			this.Stop();
 
+			this._fileHelper.GetMovieList(IOHelper.CurrentFolder);
 			var movieWindow = new MovieListWindow(this._fileHelper) { WindowStyle = this.WindowStyle };
 
 			var result = movieWindow.ShowDialog();

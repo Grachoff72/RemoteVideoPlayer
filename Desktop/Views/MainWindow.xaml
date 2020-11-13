@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:wpfMediaKit="clr-namespace:WPFMediaKit.DirectShow.Controls;assembly=WPFMediaKit"
+        xmlns:views="clr-namespace:RemoteVideoPlayer.Views"
 		xmlns:viewModels="clr-namespace:RemoteVideoPlayer.ViewModels"
 		mc:Ignorable="d"
 		Name="MainForm"
@@ -14,6 +15,7 @@
 		<viewModels:Int64ToTimeSpanConverter x:Key="Int64ToTimeSpanConverter" />
 		<viewModels:Int64ToTimeSpanMultiConverter x:Key="Int64ToTimeSpanMultiConverter" />
 		<viewModels:TicksToSecondsConverter x:Key="TicksToSecondsConverter" />
+		<viewModels:SubtitleConverter x:Key="SubtitleConverter" />
 	</Window.Resources>
 	<Grid>
 		<wpfMediaKit:MediaUriElement Name="Player" Panel.ZIndex="0" Volume="1" VideoRenderer="EnhancedVideoRenderer"
@@ -21,13 +23,13 @@
 									LoadedBehavior="Manual" UnloadedBehavior="Stop"
 									MediaOpened="Player_MediaOpened" MediaEnded="Player_MediaEnded" MediaFailed="Player_MediaFailed" />
 		<DockPanel Name="DockPanel" LastChildFill="True" Panel.ZIndex="1">
-			<Grid Name="Root" DockPanel.Dock="Bottom">
+            <Grid Name="Root" DockPanel.Dock="Bottom">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
-				<Grid Grid.Row="0">
+                <Grid Grid.Row="0">
 					<TextBlock Name="InfoBlock" Foreground="White" FontSize="30" Margin="5, 0" />
 				</Grid>
 				<Grid Name="SliderGrid" Grid.Row="1" DataContext="{Binding ElementName=Player}" HorizontalAlignment="Center">
@@ -134,7 +136,7 @@
 						<Image Source="{StaticResource VolumeUpImage}" Style="{StaticResource ImageStyle}" />
 					</Button>
 					<TextBlock Name="VolumeValueBlock" Grid.Column="11" HorizontalAlignment="Center" VerticalAlignment="Center"
-								Background="Transparent" Foreground="White" FontSize="18" Opacity="0"
+								Background="Transparent" Foreground="White" FontSize="30" Opacity="0"
 								DataContext="{Binding ElementName=MainForm}"
 								Text="{Binding LastVolume, Converter={StaticResource DoubleToInt32Converter}}" />
 					<Button Grid.Column="13" Name="FolderButton" Style="{StaticResource ButtonStyle}" Click="FolderButtonClick">
@@ -145,6 +147,16 @@
 					</Button>
 				</Grid>
 			</Grid>
+			<Grid DockPanel.Dock="Bottom">
+                <TextBlock Name="SubtitlesBlock" Foreground="Gold" FontSize="48" Margin="5, 0" HorizontalAlignment="Center">
+					<TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource SubtitleConverter}">
+							<Binding ElementName="Player" Path="MediaPosition" />
+                            <Binding ElementName="MainForm" Path="CurrentMovie" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </Grid>
 			<Grid />
 		</DockPanel>
 	</Grid>

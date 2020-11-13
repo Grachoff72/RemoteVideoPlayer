@@ -10,14 +10,13 @@
         WindowState="Maximized" Height="450" Width="800">
 	<Window.Resources>
 		<viewModels:TypeToImageConverter x:Key="ImageConverter" />
-	</Window.Resources>
+    </Window.Resources>
 	<DockPanel>
 		<DockPanel Dock="Bottom">
-			<Button Name="CloseButton" DockPanel.Dock="Right" Background="Transparent" Content="Отмена" BorderBrush="CadetBlue" BorderThickness="3" FontSize="32" Width="200" HorizontalContentAlignment="Center" IsCancel="True" Click="CloseButton_Click">
-			</Button>
-		</DockPanel>
-		<ListBox Name="MovieListBox" IsSynchronizedWithCurrentItem="True" SelectionMode="Single" HorizontalContentAlignment="Stretch" FontSize="32" DataContext="{Binding Path=(views:MovieListWindow.FileHelper)}" ItemsSource="{Binding Path=MovieList}" >
-			<ListBox.ItemTemplate>
+			<Button Name="CloseButton" DockPanel.Dock="Right" Background="Transparent" Content="Отмена" BorderBrush="CadetBlue" BorderThickness="3" FontSize="32" Width="200" HorizontalContentAlignment="Center" IsCancel="True" Click="CloseButton_Click" />
+        </DockPanel>
+        <ListBox Name="MovieListBox" IsSynchronizedWithCurrentItem="True" SelectionMode="Single" HorizontalContentAlignment="Stretch" FontSize="32" DataContext="{Binding Path=(views:MovieListWindow.FileHelper)}" ItemsSource="{Binding Path=MovieList}">
+            <ListBox.ItemTemplate>
 				<DataTemplate x:Name="MovieItemTemplate">
 					<Button Style="{StaticResource TransparentButtonStyle}" HorizontalContentAlignment="Stretch" Height="50" Click="MovieListItemClick">
 						<DockPanel>
@@ -27,6 +26,13 @@
 					</Button>
 				</DataTemplate>
 			</ListBox.ItemTemplate>
+			<ListBox.ItemContainerStyle>
+				<Style TargetType="ListBoxItem">
+                    <Setter Property="Background" Value="White" />
+                    <Setter Property="BorderBrush" Value="White"></Setter>
+                    <Setter Property="BorderThickness" Value="0"></Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
 		</ListBox>
 	</DockPanel>
 </views:ListBoxWindow>
