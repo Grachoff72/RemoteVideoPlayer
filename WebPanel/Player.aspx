@@ -7,6 +7,7 @@
 <head runat="server">
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0"/>
 	<title>Player</title>
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
 	<style type="text/css">
 		.auto-style2 {
 			width: 60px;

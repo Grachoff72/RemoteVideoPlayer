@@ -48,11 +48,17 @@ namespace RemoteVideoPlayer.Helpers
 				ConfigHelper.RootFolders = this.RootFolders;
 			}
 
+			this._savedMovies = ConfigHelper.Movies.ToList();
+
 			this.MovieList = new List<MovieListItem>();
 			this.GetMovieList(CurrentFolder);
 
-			this._savedMovies = ConfigHelper.Movies.ToList();
-			removeCount = this._savedMovies.RemoveAll(x => !File.Exists(x.Path));
+			this.UpdateSavedMovies();
+		}
+
+		internal void UpdateSavedMovies()
+		{
+			var removeCount = this._savedMovies.RemoveAll(x => !File.Exists(x.Path));
 
 			if (removeCount > 0)
 			{
@@ -66,7 +72,7 @@ namespace RemoteVideoPlayer.Helpers
 			{
 				this.CurrentMovieIndex++;
 
-				if (this.CurrentMovieIndex == this._currentMovies.Count)
+				if (this.CurrentMovieIndex >= this._currentMovies.Count)
 				{
 					return String.Empty;
 				}
@@ -148,7 +154,7 @@ namespace RemoteVideoPlayer.Helpers
 
 						if (subtitle != null)
 						{
-							subtitle.Text = $"{subtitle.Text}{(String.IsNullOrEmpty(subtitle.Text) ? "" : "\r\n")}{line}" ;
+							subtitle.Text = $"{subtitle.Text}{(String.IsNullOrEmpty(subtitle.Text) ? "" : "\r\n")}{line.RemoveHtmlTags()}" ;
 						}
 					}
 				}

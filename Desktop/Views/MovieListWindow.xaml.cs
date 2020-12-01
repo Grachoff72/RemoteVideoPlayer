@@ -26,6 +26,7 @@ namespace RemoteVideoPlayer.Views
 		public MovieListWindow(IOHelper ioHelper)
 		{
 			this.FileHelper = ioHelper;
+			this.FileHelper.UpdateSavedMovies();
 
 			InitializeComponent();
 

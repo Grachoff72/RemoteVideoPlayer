@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.Linq;
 using RemoteVideoPlayer.Configuration;
 using RemoteVideoPlayer.Models;
@@ -16,6 +17,8 @@ namespace RemoteVideoPlayer.Helpers
 		private const string INPUT_QUEUE_NAME = "queueName";
 
 		private const string DEBUG_MODE = "debugMode";
+
+		private const string LAST_VOLUME = "lastVolume";
 
 		public static System.Configuration.Configuration Config =>
 			ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
@@ -39,20 +42,29 @@ namespace RemoteVideoPlayer.Helpers
 
 		public static string CurrentFolder
 		{
-			get { return Config.AppSettings.Settings[CURRENT_FOLDER_NAME]?.Value ?? String.Empty; }
-			set { SetAppSetting(CURRENT_FOLDER_NAME, value); }
+			get => Config.AppSettings.Settings[CURRENT_FOLDER_NAME]?.Value ?? String.Empty;
+			set => SetAppSetting(CURRENT_FOLDER_NAME, value);
 		}
 
 		public static bool DebugMode
 		{
 			get
 			{
-				bool b;
-				Boolean.TryParse(Config.AppSettings.Settings[DEBUG_MODE]?.Value ?? String.Empty, out b);
+				Boolean.TryParse(Config.AppSettings.Settings[DEBUG_MODE]?.Value ?? String.Empty, out var b);
 				return b;
 			}
 
-			set { SetAppSetting(DEBUG_MODE, value.ToString().ToLower()); }
+			set => SetAppSetting(DEBUG_MODE, value.ToString().ToLower());
+		}
+
+		public static double LastVolume
+		{
+			get
+			{
+				Double.TryParse(Config.AppSettings.Settings[LAST_VOLUME]?.Value ?? "1.0", NumberStyles.Float, CultureInfo.InvariantCulture, out var d);
+				return d;
+			}
+			set => SetAppSetting(LAST_VOLUME, value.ToString("F2", CultureInfo.InvariantCulture));
 		}
 
 		private static void SetAppSetting(string settingName, string value)

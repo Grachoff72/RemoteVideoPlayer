@@ -13,7 +13,6 @@ namespace RemoteVideoPlayer.Views
 
 		private bool _isNowPlaying;
 		private bool _isMuted;
-		private bool _subtitlesShowing;
 
 		public const double MIN_VOLUME = 0.2;
 		private const double MAX_VOLUME = 1.0;
@@ -134,7 +133,11 @@ namespace RemoteVideoPlayer.Views
 
 			var file = this._fileHelper.GetNextFile(forward);
 
-			if (!String.IsNullOrEmpty(file))
+			if (String.IsNullOrEmpty(file))
+			{
+				this.Stop();
+			}
+			else
 			{
 				this.PlayMovie(new Movie(file));
 			}
@@ -144,6 +147,7 @@ namespace RemoteVideoPlayer.Views
 		{
 			if (String.IsNullOrEmpty(this._fileHelper.CurrentFile))
 			{
+				this.SelectMovie();
 				return;
 			}
 

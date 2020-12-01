@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -23,8 +22,6 @@ namespace RemoteVideoPlayer.Views
 
 		private readonly DispatcherTimer _fastPlayTimer;
 
-		private readonly DispatcherTimer _subtitlesTimer;
-
 		private Cursor _cursor;
 
 		public MainWindow()
@@ -39,84 +36,16 @@ namespace RemoteVideoPlayer.Views
 
 			this._fastPlayTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500) };
 			this._fastPlayTimer.Tick += this.FastPlayTimerTick;
-			
-			//this._subtitlesTimer = new DispatcherTimer();
-			//this._subtitlesTimer.Tick += this.SubtitlesTimerTick;
 
 			this._fileHelper = new IOHelper();
 
-			this.LastVolume = this.Player.Volume;
+			this.LastVolume = ConfigHelper.LastVolume;
 
 			this.Loaded += this.MainWindowLoaded;
 			this.Closing += this.MainWindowClosing;
 			this.MouseMove += this.MainWindowMouseMove;
 			this.PreviewMouseDown += this.MainWindowPreviewMouseDown;
 			this.PreviewKeyUp += this.MainWindowPreviewKeyUp;
-		}
-
-		private void SubtitlesTimerTick(object sender, EventArgs e)
-		{
-			this._subtitlesTimer.Stop();
-
-			if (this._subtitlesShowing)
-			{
-				this.WaitNextSubtitles();
-			}
-			else
-			{
-				this.ShowSubTitles();
-			}
-		}
-
-		private void ShowSubTitles()
-		{
-			var subtitle = this.CurrentMovie.Subtitles.FirstOrDefault(
-				x => x.Begin.Ticks <= this.Player.MediaPosition && x.End.Ticks >= this.Player.MediaPosition);
-
-			if (subtitle == null)
-			{
-				return;
-			}
-
-			this.SubtitlesBlock.Text = subtitle.Text;
-
-			this._subtitlesShowing = true;
-
-			this._subtitlesTimer.Interval = subtitle.End - subtitle.Begin;
-			
-			this._subtitlesTimer.Start();
-		}
-
-		private void WaitNextSubtitles()
-		{
-			this.SubtitlesBlock.Text = "";
-
-			var subtitle = this.CurrentMovie.Subtitles.FirstOrDefault(x => x.Begin.Ticks > this.Player.MediaPosition);
-
-			if (subtitle == null)
-			{
-				return;
-			}
-
-			this._subtitlesShowing = false;
-
-			this._subtitlesTimer.Interval = TimeSpan.FromTicks(subtitle.Begin.Ticks - this.Player.MediaPosition);
-
-			this._subtitlesTimer.Start();
-		}
-
-		private void SuspendSubtitles()
-		{
-
-			if (!this._subtitlesShowing)
-			{
-				return;
-			}
-		}
-
-		private void ResumeSubtitles()
-		{
-
 		}
 
 		private void MainWindowPreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -148,6 +77,7 @@ namespace RemoteVideoPlayer.Views
 		private void MainWindowClosing(object sender, CancelEventArgs e)
 		{
 			this.Stop();
+			ConfigHelper.LastVolume = this.LastVolume;
 		}
 
 		private void MainWindowLoaded(object sender, RoutedEventArgs e)
