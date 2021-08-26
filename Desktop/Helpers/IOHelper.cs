@@ -95,9 +95,11 @@ namespace RemoteVideoPlayer.Helpers
 			try
 			{
 				var dir = Path.GetDirectoryName(movie.Path);
-				var subtitlesPath = Path.Combine(dir ?? "", $"{movie.Name}.srt");
+                var files = Directory.GetFiles(dir ?? "", $"{movie.Name}*.srt");
 
-				if (!File.Exists(subtitlesPath))
+				var subtitlesPath = files.FirstOrDefault();
+
+				if (subtitlesPath == null)
 				{
 					return;
 				}

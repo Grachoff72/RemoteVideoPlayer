@@ -148,7 +148,7 @@
 				</Grid>
 			</Grid>
 			<Grid DockPanel.Dock="Bottom">
-                <TextBlock Name="SubtitlesBlock" Foreground="Gold" FontSize="48" Margin="5, 0" HorizontalAlignment="Center">
+                <TextBlock Name="SubtitlesBlock" Background="Black" Foreground="Gold" FontSize="48" Margin="5, 0" HorizontalAlignment="Center">
 					<TextBlock.Text>
                         <MultiBinding Converter="{StaticResource SubtitleConverter}">
 							<Binding ElementName="Player" Path="MediaPosition" />
