@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -54,14 +55,85 @@ namespace RemoteVideoPlayer.Views
 		}
 
 		private void MainWindowPreviewKeyUp(object sender, KeyEventArgs e)
-		{
-			if (e.Key == Key.Escape)
-			{
-				this.RestoreScreen();
-			}
-		}
+        {
+            switch (e.Key)
+            {
+                case Key.F11:
+                    this.FullScreen();
+                    break;
+                case Key.Escape:
+                    this.RestoreScreen();
+                    break;
+                case Key.MediaPlayPause:
+                case Key.Space:
+                    this.PlayPause();
+                    break;
+                case Key.Play:
+					this.Play();
+                    break;
+				case Key.Pause:
+					this.Pause();
+                    break;
+                case Key.VolumeMute:
+                    this.Mute();
+                    break;
+                case Key.VolumeDown:
+                    this.VolumeDown();
+                    break;
+                case Key.VolumeUp:
+                    this.VolumeUp();
+                    break;
+                case Key.MediaNextTrack:
+                    this.Next();
+                    break;
+                case Key.MediaPreviousTrack:
+                    this.Previous();
+                    break;
+                case Key.MediaStop:
+                    this.Stop();
+                    break;
+                case Key.Enter:
+                case Key.SelectMedia:
+                case Key.Apps:
+                    this.SelectMovie();
+                    break;
+                case Key.Left:
+                    if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+                    {
+                        this.Previous();
+                    }
+					else if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+                    {
+                        this.Rewind();
+                    }
+                    else
+                    {
+                        this.SkipBack();
+                    }
+                    break;
+                case Key.Right:
+                    if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+                    {
+                        this.Next();
+                    }
+					else if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+                    {
+                        this.FastForward();
+                    }
+                    else
+                    {
+                        this.Skip();
+                    }
+                    break;
+                default:
+                    System.Diagnostics.Debug.WriteLine(e.Key.ToString());
+                    break;
+            }
 
-		private void MouseMoveTimerTick(object sender, EventArgs e)
+            this.ShowRoot();
+        }
+
+        private void MouseMoveTimerTick(object sender, EventArgs e)
 		{
 			this.Root.Opacity = 0;
 			this.Cursor = Cursors.None;
@@ -98,6 +170,8 @@ namespace RemoteVideoPlayer.Views
 			this.Activate();
 			this.Topmost = true;
 			this.Topmost = false;
+
+			this.SelectMovie();
 		}
 
 		private void MainWindowSizeChanged(object sender, SizeChangedEventArgs e)

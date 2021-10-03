@@ -401,6 +401,8 @@ namespace RemoteVideoPlayer.Views
 
 		public void Suspend()
 		{
+			this.RestoreScreen();
+
 			var wnd = new SuspendWindow();
 
 			var dlg = wnd.ShowDialog();

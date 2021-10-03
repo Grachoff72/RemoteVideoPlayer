@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using RemoteVideoPlayer.Models;
 
@@ -104,7 +105,7 @@ namespace RemoteVideoPlayer.Helpers
 					return;
 				}
 
-				using (var sr = File.OpenText(subtitlesPath))
+				using (var sr = new StreamReader(subtitlesPath, Encoding.Default, true))
 				{
 					Subtitle subtitle = null;
 
